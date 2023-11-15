@@ -12,20 +12,22 @@ SOURCES += \
     bomba.cpp \
     bomber.cpp \
     enemy.cpp \
+    imagen.cpp \
     main.cpp \
     mainwindow.cpp \
     pared.cpp \
     pared2.cpp \
-    resourcemanager.cpp
+    powerup.cpp
 
 HEADERS += \
     bomba.h \
     bomber.h \
     enemy.h \
+    imagen.h \
     mainwindow.h \
     pared.h \
     pared2.h \
-    resourcemanager.h
+    powerup.h
 
 FORMS += \
     mainwindow.ui

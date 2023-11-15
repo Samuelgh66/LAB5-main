@@ -13,6 +13,8 @@
 #include <QList>
 #include <bomba.h>
 #include <QDebug>
+#include <imagen.h>
+#include <powerup.h>
 
 #include <QGraphicsRectItem>
 
@@ -42,6 +44,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    std::vector<PowerUp> powerUps;
 
 private slots:
     void INCINERAR();
@@ -88,6 +91,7 @@ private:
     void VaciarListas();
     void VaciarListas2();
     void moverBombas();
+
 
     //sonido
     //QMediaPlayer *sound;
