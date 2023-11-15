@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/imagen">
+        <file>ninja.png</file>
+        <file>fuego.png</file>
+        <file>pared-de-ladrillo.png</file>
+        <file>fantasma (1).png</file>
+    </qresource>
+    <qresource prefix="/new/prefix1"/>
+    <qresource prefix="/"/>
+    <qresource prefix="/Music">
+        <file>RDRFRAudio.mp3</file>
+    </qresource>
+</RCC>
