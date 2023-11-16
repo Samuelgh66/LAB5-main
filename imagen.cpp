@@ -1,5 +1,4 @@
-//Archivo de código imagen.cpp
-
+/*
 #include "imagen.h"
 
 //Implementación del constructor
@@ -105,3 +104,4 @@ void IMAGEN::updatePosicion()
     //Llamada al método para cambiar la posición de la imagen según la velocidad de movimiento
     setPosicion(posx+velocidad,posy+velocidad);
 }
+*/

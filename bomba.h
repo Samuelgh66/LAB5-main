@@ -2,15 +2,22 @@
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
 #include <QGraphicsItem>
+#include <QGraphicsObject>
+#include <QTimer>
 
 #ifndef  BOMBA_H
 #define  BOMBA_H
 
-class BOMBA: public QGraphicsItem
+class BOMBA: public QGraphicsObject
 {
+    Q_OBJECT
+protected:
+       QTimer *timer;
+
     //Atributos privados de la clase BOMBA
     private:
         int posx,posy,alto,bajo,velocidad;
+        bool exploded;
 
     //Métodos públicos de la clase BOMBA
     public:
@@ -50,6 +57,13 @@ class BOMBA: public QGraphicsItem
 
         //Método para actualizar la posición de la bomba según la velocidad
         void updatePosicion();
+
+        //Método para detonar la bomba
+        void explode();
+
+        void removeBomba();
+
+        virtual ~BOMBA();
 };
 
 #endif // BOMBA_H

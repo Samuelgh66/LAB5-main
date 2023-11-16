@@ -1,3 +1,4 @@
+/*
 #ifndef POWERUP_H
 #define POWERUP_H
 
@@ -27,3 +28,4 @@ private:
 };
 
 #endif // POWERUP_H
+*/

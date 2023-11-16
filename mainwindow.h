@@ -15,6 +15,7 @@
 #include <QDebug>
 #include <imagen.h>
 #include <powerup.h>
+#include <explosion.h>
 
 #include <QGraphicsRectItem>
 
@@ -44,7 +45,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    std::vector<PowerUp> powerUps;
+    //std::vector<PowerUp> powerUps;
 
 private slots:
     void INCINERAR();
@@ -93,12 +94,8 @@ private:
     void moverBombas();
 
 
-    //sonido
-    //QMediaPlayer *sound;
-
     QMediaPlayer *sound;
 
-    //QMediaPlaylist *musicPlaylist;
 
 
     int puntaje=0;

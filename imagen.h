@@ -1,11 +1,11 @@
-//Archivo de cabecera imagen.h
-
+/*
 #ifndef IMAGEN_H
 #define IMAGEN_H
 
 #include <QPainter>
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
+
 #include <QGraphicsItem>
 
 //Definición de la clase IMAGEN, que hereda de QGraphicsItem
@@ -57,3 +57,4 @@ class IMAGEN: public QGraphicsItem
 };
 
 #endif // IMAGEN_H
+*/

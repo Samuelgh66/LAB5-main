@@ -1,8 +1,24 @@
-
 #include "enemy.h"
 
+// Constructor por defecto de ENEMY
+ENEMY::ENEMY()
+{
+    this->radio=25;
+    this->velocidad=5;
+}
 
-//con QGraficsItem Volvemos BOMBER un Item GRafico
+// Constructor de ENEMY con parámetros
+ENEMY::ENEMY(int x, int y, int r)
+{
+    // Asignación de valores de ENEMY
+    this->posx=x;
+    this->posy=y;
+    this->radio=r;
+    this->velocidad=1.5;
+    setPos(posx,posy);
+}
+
+// Métodos para obtener y establecer la posición x de ENEMY
 int ENEMY::getPosx() const
 {
     return posx;
@@ -13,6 +29,7 @@ void ENEMY::setPosx(int newPosx)
     posx = newPosx;
 }
 
+// Métodos para obtener y establecer la posición y de ENEMY
 int ENEMY::getPosy() const
 {
     return posy;
@@ -23,6 +40,7 @@ void ENEMY::setPosy(int newPosy)
     posy = newPosy;
 }
 
+// Métodos para obtener y establecer la velocidad de ENEMY
 int ENEMY::getVelocidad() const
 {
     return velocidad;
@@ -33,39 +51,20 @@ void ENEMY::setVelocidad(int newVelocidad)
     velocidad = newVelocidad;
 }
 
-ENEMY::ENEMY()
-{
-    this->radio=25;
-    this->velocidad=5;
-
-}
-
-
-ENEMY::ENEMY(int x, int y, int r)
-{
-    // ASIGNACION DE VALORES DE BOMBER
-    this->posx=x;
-    this->posy=y;
-    this->radio=r;
-    this->velocidad=1.5;
-    setPos(posx,posy);
-}
-
+// Método para obtener el rectángulo delimitador de ENEMY
 QRectF ENEMY::boundingRect() const
 {
     return QRectF(posx,posy,2*radio,2*radio);
 }
 
+// Método para pintar ENEMY en la escena
 void ENEMY::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //painter->setBrush(Qt::red);
-    //painter->drawEllipse(boundingRect());
     QPixmap ninja(":/imagen/fantasma (1).png");
     painter->drawPixmap(boundingRect(),ninja,ninja.rect());
-
-
 }
 
+// Métodos para mover ENEMY en diferentes direcciones
 void ENEMY::MoveUp()
 {
     posy-=velocidad;
@@ -89,5 +88,3 @@ void ENEMY::MoveRight()
     posx+=velocidad;
     setPos(posx, posy);
 }
-
-

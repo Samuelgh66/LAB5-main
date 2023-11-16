@@ -4,9 +4,12 @@
         <file>fuego.png</file>
         <file>pared-de-ladrillo.png</file>
         <file>fantasma (1).png</file>
+        <file>explosion.png</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
-    <qresource prefix="/"/>
+    <qresource prefix="/">
+        <file>explosion.png</file>
+    </qresource>
     <qresource prefix="/Music">
         <file>RDRFRAudio.mp3</file>
     </qresource>

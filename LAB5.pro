@@ -12,6 +12,7 @@ SOURCES += \
     bomba.cpp \
     bomber.cpp \
     enemy.cpp \
+    explosion.cpp \
     imagen.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     bomba.h \
     bomber.h \
     enemy.h \
+    explosion.h \
     imagen.h \
     mainwindow.h \
     pared.h \

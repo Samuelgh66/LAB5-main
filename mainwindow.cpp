@@ -6,23 +6,29 @@
 
 #include <QFileDialog>
 
+// Constructor de MainWindow
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow){
     ui->setupUi(this);
     scene = new QGraphicsScene();
     ui->graphicsView->setScene(scene);
     scene->setSceneRect(0, 0, 1200, 650);
 
+
+
+    // Creación de los objetos BOMBER y ENEMY
     Franklin = new BOMBER(25, 25, 20);
     Enemigo = new ENEMY(575, 275, 25);
     Enemigo2 = new ENEMY(575, 50, 25);
     Enemigo3 = new ENEMY(25, 275, 25);
     Enemigo2->setVelocidad(25);
 
+    // Añadir los objetos a la escena
     scene->addItem(Franklin);
     scene->addItem(Enemigo);
     scene->addItem(Enemigo2);
     scene->addItem(Enemigo3);
 
+    // Creación de las paredes y añadirlas a la escena
     paredes.push_back(new pared(0, 0, 1200, 50));
     scene->addItem(paredes.back());
 
@@ -35,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     paredes.push_back(new pared(0, 300, 1200, 50));
     scene->addItem(paredes.back());
 
+    // Creación de los temporizadores y conexión de las señales
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(moverEnemigo()));
 
@@ -45,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     timer2->stop();
     timer3->stop();
 
+    // Creación de más paredes y añadirlas a la escena
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 13; j++) {
             paredes.push_back(new pared(50 * j, 50 * i, 50, 50));
@@ -52,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
         }
     }
 
+    // Creación de bloques aleatorios y añadirlas a la escena
     srand(time(NULL));
 
     int random_1 = 0;
@@ -82,23 +91,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     timer->start(50);
     timer2->start(3000);
 }
-
-    //sonido
-    //sound = new QMediaPlayer();
-    //sound->setMedia(QUrl(":/Music/RDRFRAudio.mp3"));
-    //sonido
-    //sound->play();
-    //connect(ui->botonPlay, &QPushButton::clicked, reproductor, &QMediaPlayer::play);
-    //connect(ui->botonPausa, &QPushButton::clicked, reproductor, &QMediaPlayer::pause);
-    //connect(ui->botonStop, &QPushButton::clicked, reproductor, &QMediaPlayer::stop);
-
-
-    //musicPlaylist = new QMediaPlaylist(this);
-    //musicPlaylist->addMedia(QUrl(":/Music/RDRFRAudio.mp3"));  // Ruta del archivo de música en tu proyecto
-   // musicPlaylist->setPlaybackMode(QMediaPlaylist::Loop);  // Establece el modo de reproducción (en bucle en este caso)
-    //musicPlayer->setPlaylist(musicPlaylist);
-
-
 
 
 void MainWindow:: moverEnemigo(){
@@ -299,10 +291,8 @@ void MainWindow::moverEnemigo3()
 
 void MainWindow::keyPressEvent(QKeyEvent *evento)
 {
-
-
     imprimirpPuntaje();
-    if(Franklin->collidesWithItem(Enemigo3) or Franklin->collidesWithItem(Enemigo2) or Franklin->collidesWithItem(Franklin2)){
+    if(Franklin->collidesWithItem(Enemigo3) or Franklin->collidesWithItem(Enemigo2) or Franklin->collidesWithItem(Enemigo) or Franklin->collidesWithItem(Franklin2)){
         close();
     }
     if(evento->key()==Qt::Key_W)
@@ -314,11 +304,8 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
             if(EvaluarColision() or EvaluarColision2()){
                 Franklin->MoveDown();
             }
-
         }
-
     }
-
     else if(evento->key()==Qt::Key_S)
     {
         if(!EvaluarColision() and !EvaluarColision2()){
@@ -352,8 +339,6 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
 
         for(auto it = GRANADAS_FUEGO.begin(); it != GRANADAS_FUEGO.end();it++){
             scene->removeItem(*it);
-
-
         }
         GRANADAS_FUEGO.clear();
 
@@ -361,19 +346,13 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
             scene->removeItem(*it2);
 
         }
-        // GRANADAS_EXPLOXION.clear();
-
-
-
-
+         GRANADAS_EXPLOXION.clear();
 
 
         GRANADAS_FUEGO.push_back(new BOMBA(Franklin->getPosx(),Franklin->getPosy(),40,40));
         scene->addItem(GRANADAS_FUEGO.back());
         //INCINERAR();
-        QTimer::singleShot(4000,this, SLOT(INCINERAR()));
-
-
+        QTimer::singleShot(3000,this, SLOT(INCINERAR()));
 
    }
    if(evento->key()== Qt::Key_M){
@@ -455,33 +434,39 @@ MainWindow::~MainWindow()
 
 void MainWindow::INCINERAR()
 {
-
-
-
-    for(auto it = GRANADAS_FUEGO.begin(); it != GRANADAS_FUEGO.end();it++){
-        //scene->removeItem(*it);
-        int x= (*it)->getPosx();
+    for (auto it = GRANADAS_FUEGO.begin(); it != GRANADAS_FUEGO.end();)
+    {
+        int x = (*it)->getPosx();
         int y = (*it)->getPosy();
-        for(float i = 1.0; i<28.0;i=i+7.5){
-            GRANADAS_EXPLOXION.push_front(new BOMBA((x+25+i),y,40,40));
-            scene->addItem(GRANADAS_EXPLOXION.front());
 
-            GRANADAS_EXPLOXION.push_front(new BOMBA((x-25-i),y,40,40));
-            scene->addItem(GRANADAS_EXPLOXION.front());
+        // Crea explosiones en forma de cruz
+        for (int dx = -2; dx <= 2; dx++)
+        {
+            for (int dy = -2; dy <= 2; dy++)
+            {
+                if (dx == 0 && dy == 0)
+                    continue; // No crea una explosión en la posición original de la bomba
+                if (dx != 0 && dy != 0)
+                    continue; // No crea una explosión en las diagonales
 
-            GRANADAS_EXPLOXION.push_front(new BOMBA((x),y+25+i,40,40));
-            scene->addItem(GRANADAS_EXPLOXION.front());
+                // Ajusta las coordenadas para cada explosión
+                int explosionX = x + dx * 24; // Multiplica por el nuevo tamaño de la explosión
+                int explosionY = y + dy * 24; // Multiplica por el nuevo tamaño de la explosión
 
-            GRANADAS_EXPLOXION.push_front(new BOMBA((x),y-25-i,40,40));
-            scene->addItem(GRANADAS_EXPLOXION.front());
-
+                EXPLOSION *nuevaExplosion = new EXPLOSION(explosionX, explosionY, 42, 42);
+                GRANADAS_EXPLOXION.push_front(nuevaExplosion);
+                scene->addItem(GRANADAS_EXPLOXION.front());
+            }
         }
+
+        scene->removeItem(*it); // Elimina la bomba de la escena después de crear las explosiones
+        delete *it;             // Elimina la bomba para evitar fugas de memoria
+        it = GRANADAS_FUEGO.erase(it);
     }
-     EvaluarColision3();
 
-
-
+    EvaluarColision3();
 }
+
 
 void MainWindow::EvaluarColision3()
 {
@@ -595,4 +580,3 @@ void MainWindow::on_verticalSlider_valueChanged(int value)
 {
 
 }
-
